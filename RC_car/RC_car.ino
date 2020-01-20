@@ -2,7 +2,7 @@
 
 //TX_BLUTUTH 10, RX_BLUTUTH 11
 SoftwareSerial BTserial(10, 11); 
-int16_t state;
+int16_t msg;
 
 // motor pins
 const int speedFR=A0;
@@ -150,13 +150,13 @@ void loop() {
   int velocity=0;
   bool recived=false;
   while(recived == false){
-    if (BTserial.available()) { // Checks whether data is comming from the serial port
-      state = BTserial.read(); // Reads the data from the serial port
-      if(state=='D'){
+    if (BTserial.available()>0) { // Checks whether data is comming from the serial port
+      msg = BTserial.read(); // Reads the data from the serial port
+      if(msg=='D'){
         recived = true;
       }else{
         velocity = velocity*10;
-        velocity = velocity+int(state);
+        velocity = velocity+int(msg);
       }
     }
   }
